@@ -1,0 +1,52 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "src\ConsoleApp\ConsoleApp.csproj", "{53DA2ABB-FB35-40D5-A923-4739A8A7AE88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - Solution Items", "{1C874AD3-8DDB-4ABD-8101-4270B6BD6465}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Components", "1 - Components", "{053B959B-1FA4-4E85-9F84-B91C19181CEE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Applications", "2 - Applications", "{CFC32AE6-513D-48B3-9749-4CFC7346D8FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtlasComponent.Domain", "src\AtlasComponent.Domain\AtlasComponent.Domain.csproj", "{27D8CD4F-4AB7-497B-8C27-C1D232509300}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlasComponent.Infrastructure.RestApi", "src\AtlasComponent.Infrastructure.RestApi\AtlasComponent.Infrastructure.RestApi.csproj", "{D0B3792F-B69E-4D7B-B165-D56DE170B854}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{53DA2ABB-FB35-40D5-A923-4739A8A7AE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53DA2ABB-FB35-40D5-A923-4739A8A7AE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53DA2ABB-FB35-40D5-A923-4739A8A7AE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53DA2ABB-FB35-40D5-A923-4739A8A7AE88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27D8CD4F-4AB7-497B-8C27-C1D232509300}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27D8CD4F-4AB7-497B-8C27-C1D232509300}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27D8CD4F-4AB7-497B-8C27-C1D232509300}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27D8CD4F-4AB7-497B-8C27-C1D232509300}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B3792F-B69E-4D7B-B165-D56DE170B854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B3792F-B69E-4D7B-B165-D56DE170B854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B3792F-B69E-4D7B-B165-D56DE170B854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B3792F-B69E-4D7B-B165-D56DE170B854}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{53DA2ABB-FB35-40D5-A923-4739A8A7AE88} = {CFC32AE6-513D-48B3-9749-4CFC7346D8FB}
+		{27D8CD4F-4AB7-497B-8C27-C1D232509300} = {053B959B-1FA4-4E85-9F84-B91C19181CEE}
+		{D0B3792F-B69E-4D7B-B165-D56DE170B854} = {053B959B-1FA4-4E85-9F84-B91C19181CEE}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4BA6CAF4-97A8-4E33-A643-42E18BC8684D}
+	EndGlobalSection
+EndGlobal
