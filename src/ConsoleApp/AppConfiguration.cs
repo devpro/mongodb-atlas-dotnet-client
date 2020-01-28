@@ -27,6 +27,8 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 
         string IMongoDbAtlasRestApiConfiguration.PrivateKey => _configurationRoot.GetSection("Infrastructure:MongoDb:Atlas:Api:PrivateKey").Value;
 
+        string IMongoDbAtlasRestApiConfiguration.HttpClientName => "MongoDbAtlasRestApi";
+
         #endregion
     }
 }

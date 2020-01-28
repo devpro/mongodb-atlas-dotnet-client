@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -21,7 +22,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
             [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
             public bool IsVerbose { get; set; }
 
-            [Option('a', "action", Required = true, HelpText = "Action (possible values: \"get\").")]
+            [Option('a', "action", Required = true, HelpText = "Action (possible values: \"list\").")]
             public string Action { get; set; }
 
             [Option('r', "resource", Required = true, HelpText = "Resource (possible values: \"orgs\").")]
@@ -51,7 +52,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
             {
                 switch (opts.Action)
                 {
-                    case "get":
+                    case "list":
                         if (opts.Resource == "orgs")
                         {
                             LogVerbose(opts, "Query the organizations collection");
@@ -60,6 +61,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                             var orgs = await organizationRepository.FindAll();
 
                             Console.WriteLine($"Items found: {orgs.Count}");
+                            Console.WriteLine($"First organization found: {orgs.FirstOrDefault().Name}");
                         }
                         else
                         {
@@ -100,7 +102,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
             var serviceCollection = new ServiceCollection()
                 .AddLogging(builder => { builder.AddConsole(); })
                 .AddSingleton(configuration)
-                .AddMongoDbAtlasRestApi<AppConfiguration>();
+                .AddMongoDbAtlasRestApi<AppConfiguration>(new AppConfiguration(configuration));
 
             ConfigureAutoMapper(serviceCollection);
 

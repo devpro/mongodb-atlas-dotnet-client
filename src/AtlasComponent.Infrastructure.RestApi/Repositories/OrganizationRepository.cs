@@ -22,7 +22,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         protected IMapper Mapper { get; private set; }
 
-        public OrganizationRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public OrganizationRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<OrganizationRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
         {
             Configuration = configuration;
             Logger = logger;
@@ -43,7 +43,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         protected virtual async Task<T> GetAsync<T>(string url) where T : class
         {
-            var client = HttpClientFactory.CreateClient();
+            var client = HttpClientFactory.CreateClient(Configuration.HttpClientName);
             SetDefaultRequestHeaders(client);
 
             Logger.LogDebug($"Async GET call initiated [HttpRequestUrl={url}]");

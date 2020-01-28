@@ -18,5 +18,10 @@
         /// MongoDB Atlas REST Api private key associated to the given <see cref="PublicKey"/>.
         /// </summary>
         public string PrivateKey { get; }
+
+        /// <summary>
+        /// HTTP client name.
+        /// </summary>
+        public string HttpClientName { get; }
     }
 }
