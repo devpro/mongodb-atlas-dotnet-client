@@ -18,21 +18,48 @@ TODO
 
 ### Configuration
 
+An API key must be created in MongoDB Atlas (follow instructions given in [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
+
+:warning: Make sure your IP is in the Api key white list!
+
 * Environment variables
 
 ```dos
-SET Infrastructure__MongoDb__Atlas__Api__PublicKey = ""
-SET Infrastructure__MongoDb__Atlas__Api__PrivateKey = ""
+SET Infrastructure__MongoDb__Atlas__Api__PublicKey=XX
+SET Infrastructure__MongoDb__Atlas__Api__PrivateKey=YYY
 ```
 
-### Local run
+### Local project debug
 
 ```bash
 # build the .NET solution
 dotnet build
 
+# configure the debug options (project settings or file Properties\launchSettings.json)
+
 # run the console application
 dotnet run 
+```
+
+### Local tool run
+
+```bash
+# pack the projects
+dotnet pack
+
+# install the newly generated tool
+dotnet tool install -g mdbatlas --add-source=src\ConsoleApp\nupkg
+
+# update with an specific version
+dotnet tool update -g mdbatlas --add-source=src\ConsoleApp\nupkg --version 1.1.0-alpha-000000
+
+# set environment variables (make sure your IP is in the white list of the API Key)
+
+# run the tool
+mdbatlas
+
+# uninstall the tool
+dotnet tool uninstall -g mdbatlas
 ```
 
 ## References
@@ -41,7 +68,6 @@ dotnet run
 
 * [API](https://docs.atlas.mongodb.com/api/)
   * [API Resources](https://docs.atlas.mongodb.com/reference/api-resources/)
-  * [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/)
 
 ### Clients in other languages
 

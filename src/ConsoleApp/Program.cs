@@ -100,7 +100,14 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         {
             LogVerbose(opts, "Create the service provider");
             var serviceCollection = new ServiceCollection()
-                .AddLogging(builder => { builder.AddConsole(); })
+                .AddLogging(builder =>
+                    {
+                        builder
+                            .AddFilter("Microsoft", opts.IsVerbose ? LogLevel.Information : LogLevel.Warning)
+                            .AddFilter("System", opts.IsVerbose ? LogLevel.Information : LogLevel.Warning)
+                            .AddFilter("MongoDb.Atlas.Client", opts.IsVerbose ? LogLevel.Debug : LogLevel.Information)
+                            .AddConsole();
+                    })
                 .AddSingleton(configuration)
                 .AddMongoDbAtlasRestApi<AppConfiguration>(new AppConfiguration(configuration));
 
