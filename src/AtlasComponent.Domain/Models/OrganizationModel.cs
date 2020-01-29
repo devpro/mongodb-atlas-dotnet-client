@@ -2,7 +2,7 @@
 {
     public class OrganizationModel
     {
-        public string Id;
-        public string Name;
+        public string Id { get; set; }
+        public string Name { get; set; }
     }
 }

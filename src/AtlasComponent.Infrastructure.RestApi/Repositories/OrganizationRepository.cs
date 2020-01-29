@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using MongoDb.Atlas.Client.AtlasComponent.Domain.Exceptions;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto;
@@ -36,7 +37,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
         {
             var url = $"{Configuration.BaseUrl}/orgs";
             var resultList = await GetAsync<ResultListDto<OrganizationDto>>(url);
-            return Mapper.Map<List<OrganizationModel>>(resultList.Results); ;
+            return Mapper.Map<List<OrganizationModel>>(resultList.Results);
         }
 
         #endregion
@@ -53,7 +54,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             var stringResult = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(stringResult))
             {
-                throw new Exception($"Empty response received while calling {url}");
+                throw new ConnectivityException($"Empty response received while calling {url}");
             }
 
             if (!response.IsSuccessStatusCode)
@@ -70,7 +71,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             {
                 Logger.LogWarning($"Cannot deserialize GET call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T).ToString()}] [ExceptionMessage={exc.Message}]");
                 Logger.LogDebug($"[Stacktrace={exc.StackTrace}]");
-                throw new Exception($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
+                throw new ConnectivityException($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
             }
         }
 
