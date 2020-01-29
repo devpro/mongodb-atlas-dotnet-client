@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi</AssemblyName>
+    <RootNamespace>MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi</RootNamespace>
+    <ProjectGuid>{12451BB4-B2D7-4C34-A1C5-7DFA7C704B08}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AtlasComponent.Domain\AtlasComponent.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
