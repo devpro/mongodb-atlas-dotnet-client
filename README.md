@@ -3,31 +3,60 @@
 [![Build Status](https://dev.azure.com/devprofr/open-source/_apis/build/status/mongodb-atlas-dotnet-client-ci?branchName=master)](https://dev.azure.com/devprofr/open-source/_build/latest?definitionId=22&branchName=master)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=devpro.mongodb-atlas-dotnet-client&metric=alert_status)](https://sonarcloud.io/dashboard?id=devpro.mongodb-atlas-dotnet-client)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=devpro.mongodb-atlas-dotnet-client&metric=coverage)](https://sonarcloud.io/dashboard?id=devpro.mongodb-atlas-dotnet-client)
+[![Nuget](https://img.shields.io/nuget/v/mdbatlas.svg)](https://www.nuget.org/packages/mdbatlas)
 
-.NET Core client for MongoDB Atlas, the Database-as-a-Service to manage MongoDB clusters!
+MongoDB Atlas API client, written in C#, working with .NET Core.
 
-## Install
+## Quick start
 
-TODO
+### How to install
 
-## Build & Debug
+As a .NET global tool, `mdbatlas` is installed from the Nuget package:
+
+```bash
+dotnet tool install --global mdbatlas
+```
+
+### How to configure
+
+An API key must be created in MongoDB Atlas, follow the instructions given in the page [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
+
+:warning: Make sure your IP is in the Api key white list!
+
+* Use config command (where xxx is the public key and yyyy the private key, both informations given by MongoDB Atlas)
+
+```bash
+mdbatlas config -u <publickey> -p <privatekey>
+```
+
+* (alternative) Set environment variables
+
+```dos
+SET mdbatlas__PublicKey=<publickey>
+SET mdbatlas__PrivateKey=<privatekey>
+```
+
+### How to use
+
+You can see all options by running the help command:
+
+```bash
+mdbatlas --help
+```
+
+### How to uninstall
+
+The tool can be easily uninstalled with:
+
+```bash
+dotnet tool uninstall -g mdbatlas
+```
+
+## Contribue
 
 ### Requirements
 
 * [.NET Core SDK](https://dotnet.microsoft.com/download) must be installed
-
-### Configuration
-
-An API key must be created in MongoDB Atlas (follow instructions given in [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
-
-:warning: Make sure your IP is in the Api key white list!
-
-* Environment variables
-
-```dos
-SET Infrastructure__MongoDb__Atlas__Api__PublicKey=XX
-SET Infrastructure__MongoDb__Atlas__Api__PrivateKey=YYY
-```
 
 ### Local project debug
 
@@ -35,28 +64,21 @@ SET Infrastructure__MongoDb__Atlas__Api__PrivateKey=YYY
 # build the .NET solution
 dotnet build
 
-# configure the debug options (project settings or file Properties\launchSettings.json)
-
-# run the console application
-dotnet run 
+# run the console app
+dotnet src/ConsoleApp/bin/Debug/netcoreapp3.1/mdbatlas.dll --help
 ```
 
-### Local tool run
+### Local installation
 
 ```bash
 # pack the projects
 dotnet pack
 
-# install the newly generated tool
-dotnet tool install -g mdbatlas --add-source=src\ConsoleApp\nupkg
-
-# update with an specific version
-dotnet tool update -g mdbatlas --add-source=src\ConsoleApp\nupkg --version 1.1.0-alpha-000000
-
-# set environment variables (make sure your IP is in the white list of the API Key)
+# install from local package
+dotnet tool update -g mdbatlas --add-source=src/ConsoleApp/nupkg --version 1.1.0-alpha-000000
 
 # run the tool
-mdbatlas
+mdbatlas list orgs
 
 # uninstall the tool
 dotnet tool uninstall -g mdbatlas
@@ -64,12 +86,17 @@ dotnet tool uninstall -g mdbatlas
 
 ## References
 
-### Official MongoDB documentation
+### MongoDB documentation
 
 * [API](https://docs.atlas.mongodb.com/api/)
   * [API Resources](https://docs.atlas.mongodb.com/reference/api-resources/)
 
-### Clients in other languages
+### Microsoft documentation
+
+* [Create a .NET Core Global Tool using the .NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create)
+* [NuGet pack and restore as MSBuild targets](https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets)
+
+### MongoDB Atlas clients in other languages
 
 * Go
   * [akshaykarle/go-mongodbatlas](https://github.com/akshaykarle/go-mongodbatlas)
