@@ -23,9 +23,9 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 
         string IMongoDbAtlasRestApiConfiguration.BaseUrl => "https://cloud.mongodb.com/api/atlas/v1.0";
 
-        string IMongoDbAtlasRestApiConfiguration.PublicKey => _configurationRoot.GetSection("Infrastructure:MongoDb:Atlas:Api:PublicKey").Value;
+        string IMongoDbAtlasRestApiConfiguration.PublicKey => _configurationRoot.GetSection("mdbatlas:PublicKey").Value;
 
-        string IMongoDbAtlasRestApiConfiguration.PrivateKey => _configurationRoot.GetSection("Infrastructure:MongoDb:Atlas:Api:PrivateKey").Value;
+        string IMongoDbAtlasRestApiConfiguration.PrivateKey => _configurationRoot.GetSection("mdbatlas:PrivateKey").Value;
 
         string IMongoDbAtlasRestApiConfiguration.HttpClientName => "MongoDbAtlasRestApi";
 

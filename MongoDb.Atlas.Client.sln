@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - S
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.azure\pipelines\ci.yml = .azure\pipelines\ci.yml
+		Directory.Build.props = Directory.Build.props
+		.azure\pipelines\pkg.yml = .azure\pipelines\pkg.yml
 		README.md = README.md
 	EndProjectSection
 EndProject
