@@ -101,7 +101,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                             LogVerbose(opts, "Query the organizations collection");
                             
                             var organizationRepository = serviceProvider.GetService<IOrganizationRepository>();
-                            var orgs = await organizationRepository.FindAll();
+                            var orgs = await organizationRepository.FindAllAsync();
 
                             Console.WriteLine($"Items found: {orgs.Count}");
                             Console.WriteLine($"First organization found: {orgs.FirstOrDefault().Name}");
