@@ -7,16 +7,29 @@
 
 MongoDB Atlas API client, written in C#, working with .NET Core.
 
+This is particularly interesting to automate your Cloud infrastructure, from a pipeline for instance.
+
 Examples:
 
 ```bash
 # List your organizations
 mdbatlas list orgs
+
+# Get your first project id
+mdbatlas list projects --query id
+
+# Get last events
+mdbatlas list events -p <projectid>
+
+# Display IP while list IP addresses
+mdbatlas list whitelist -p <projectid>
 ```
 
 ## Quick start
 
 ### How to install
+
+As a requirement, you only have to install the latest [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) (open source tool with a minimzed footprint).
 
 As a .NET global tool, `mdbatlas` is installed from the Nuget package:
 
@@ -35,7 +48,7 @@ This action should provide you with the public key and the private key.
 * Use the tool `config` action
 
 ```bash
-mdbatlas config -u <publickey> -p <privatekey>
+mdbatlas config --publickey <publickey> --privatekey <privatekey>
 ```
 
 * (alternative) Set environment variables
@@ -66,50 +79,6 @@ The tool can be easily uninstalled with:
 ```bash
 dotnet tool uninstall -g mdbatlas
 ```
-
-## Features
-
-This table presents all the resources provided by MongoDB Atlas API with the status of their integration in the client (:heavy_check_mark: = implemented).
-
-Resource | Method
--------- | ------
-Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId, FindOneByIdAndProjectId
-Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationGroups, Rename, Delete
-Project | FindAll, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
-Root |
-Database Users |
-Custom MongoDB Roles |
-Project IP Whitelist |
-Invoices |
-Teams |
-Clusters |
-Global Clusters |
-Alerts |
-Alert Configurations |
-Maintenance Windows |
-LDAP Configuration |
-Full Text Search |
-Continuous Backup Snapshots |
-Continuous Backup Snapshot Schedule |
-Continuous Backup Restore Job |
-Cloud Provider and On-demand Snapshots |
-Cloud Provider Snapshot Restore Job |
-Cloud Provider Snapshot Backup Policy |
-M2/M5 Snapshots |
-M2/M5 Snapshot Restore Jobs |
-Checkpoints |
-Network Peering |
-Private Endpoints |
-Personal API Key Whitelist |
-Programmatic API Keys |
-Monitoring and Logs |
-Performance Advisor |
-Auditing |
-Encryption at Rest |
-Atlas Users |
-Events |
-Access Tracking |
-Data Lakes |
 
 ## Contribue
 
@@ -145,15 +114,59 @@ dotnet tool uninstall -g mdbatlas
 
 ## References
 
+### Microsoft documentation
+
+* [Create a .NET Core Global Tool using the .NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create)
+* [NuGet pack and restore as MSBuild targets](https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets)
+
 ### MongoDB documentation
 
 * [API](https://docs.atlas.mongodb.com/api/)
   * [API Resources](https://docs.atlas.mongodb.com/reference/api-resources/)
 
-### Microsoft documentation
+### MongoDB Atlas API features
 
-* [Create a .NET Core Global Tool using the .NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create)
-* [NuGet pack and restore as MSBuild targets](https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets)
+This table presents all the resources provided by MongoDB Atlas API with the status of their integration in the client (:heavy_check_mark: = implemented).
+
+Resource | Method
+-------- | ------
+Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId
+Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationProjects, Rename, Delete
+Project | FindAll:heavy_check_mark:, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
+Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create, Delete
+Root |
+Database Users |
+Custom MongoDB Roles |
+Invoices |
+Teams |
+Clusters |
+Global Clusters |
+Alerts |
+Alert Configurations |
+Maintenance Windows |
+LDAP Configuration |
+Full Text Search |
+Continuous Backup Snapshots |
+Continuous Backup Snapshot Schedule |
+Continuous Backup Restore Job |
+Cloud Provider and On-demand Snapshots |
+Cloud Provider Snapshot Restore Job |
+Cloud Provider Snapshot Backup Policy |
+M2/M5 Snapshots |
+M2/M5 Snapshot Restore Jobs |
+Checkpoints |
+Network Peering |
+Private Endpoints |
+Personal API Key Whitelist |
+Programmatic API Keys |
+Monitoring and Logs |
+Performance Advisor |
+Auditing |
+Encryption at Rest |
+Atlas Users |
+Events |
+Access Tracking |
+Data Lakes |
 
 ### MongoDB Atlas clients in other languages
 

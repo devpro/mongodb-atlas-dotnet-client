@@ -20,12 +20,17 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         #endregion
 
+        #region RepositoryBase Properties
+
+        protected override string ResourceName => "orgs";
+
+        #endregion
+
         #region IOrganizationRepository methods
 
         public async Task<List<OrganizationModel>> FindAllAsync()
         {
-            var url = $"{Configuration.BaseUrl}/orgs";
-            var resultList = await GetAsync<ResultListDto<OrganizationDto>>(url);
+            var resultList = await GetAsync<ResultListDto<OrganizationDto>>(GenerateUrl());
             return Mapper.Map<List<OrganizationModel>>(resultList.Results);
         }
 

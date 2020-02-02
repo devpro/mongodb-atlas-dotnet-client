@@ -11,7 +11,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 {
     public abstract class RepositoryBase
     {
-        #region Protected fields
+        #region Protected properties & constructors
 
         protected IMongoDbAtlasRestApiConfiguration Configuration { get; private set; }
 
@@ -31,7 +31,18 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         #endregion
 
+        #region Abstract properties
+
+        protected abstract string ResourceName { get; }
+
+        #endregion
+
         #region Protected methods
+
+        protected string GenerateUrl(string arguments = "")
+        {
+            return $"{Configuration.BaseUrl}/{ResourceName}{arguments}";
+        }
 
         protected virtual async Task<T> GetAsync<T>(string url) where T : class
         {
