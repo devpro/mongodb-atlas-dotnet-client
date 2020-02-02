@@ -71,7 +71,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         #endregion
 
         #region Private helpers
-        
+
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
         {
             if (opts.Action == "config")
@@ -108,7 +108,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                         if (opts.Resource == "orgs")
                         {
                             LogVerbose(opts, "Query the organizations collection");
-                            
+
                             var organizationRepository = serviceProvider.GetService<IOrganizationRepository>();
                             var orgs = await organizationRepository.FindAllAsync();
 

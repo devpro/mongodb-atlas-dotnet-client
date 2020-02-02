@@ -18,11 +18,11 @@ using Xunit;
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Repositories
 {
     [Trait("Category", "UnitTests")]
-    public class OrganizationRepositoryTest : RepositoryTestBase
+    public class ProjectRepositoryTest : RepositoryTestBase
     {
         #region Private fields & Constructor
 
-        public OrganizationRepositoryTest()
+        public ProjectRepositoryTest()
             : base()
         {
         }
@@ -32,16 +32,16 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
         #region FindAll test methods
 
         [Fact]
-        public async Task OrganizationRepositoryFindAll_ReturnListFromApiCall()
+        public async Task ProjectRepositoryFindAll_ReturnListFromApiCall()
         {
             // Arrange
             var fixture = new Fixture();
-            var responseDto = fixture.Create<ResultListDto<OrganizationDto>>();
+            var responseDto = fixture.Create<ResultListDto<ProjectDto>>();
             var httpResponseMessage = new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(responseDto))
-                };
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+            };
             var repository = BuildRepository(httpResponseMessage);
 
             // Act
@@ -50,18 +50,18 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             // Assert
             output.Should().NotBeNull();
             output.Should().HaveCount(responseDto.Results.Count);
-            output.First().Should().BeEquivalentTo(Mapper.Map<OrganizationModel>(responseDto.Results.First()));
+            output.First().Should().BeEquivalentTo(Mapper.Map<ProjectModel>(responseDto.Results.First()));
         }
 
         #endregion
 
         #region Private methods
 
-        private IOrganizationRepository BuildRepository(HttpResponseMessage httpResponseMessage)
+        private IProjectRepository BuildRepository(HttpResponseMessage httpResponseMessage)
         {
             var configuration = new DummyMongoDbAtlasRestApiConfiguration();
 
-            var logger = ServiceProvider.GetService<ILogger<OrganizationRepository>>();
+            var logger = ServiceProvider.GetService<ILogger<ProjectRepository>>();
 
             var fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
             fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>()))
@@ -73,7 +73,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             httpClientFactoryMock.Setup(x => x.CreateClient(configuration.HttpClientName))
                 .Returns(httpClient);
 
-            return new OrganizationRepository(configuration, logger, httpClientFactoryMock.Object, Mapper);
+            return new ProjectRepository(configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
 
         #endregion
