@@ -7,6 +7,13 @@
 
 MongoDB Atlas API client, written in C#, working with .NET Core.
 
+Examples:
+
+```bash
+# List your organizations
+mdbatlas list orgs
+```
+
 ## Quick start
 
 ### How to install
@@ -59,6 +66,50 @@ The tool can be easily uninstalled with:
 ```bash
 dotnet tool uninstall -g mdbatlas
 ```
+
+## Features
+
+This table presents all the resources provided by MongoDB Atlas API with the status of their integration in the client (:heavy_check_mark: = implemented).
+
+Resource | Method
+-------- | ------
+Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId, FindOneByIdAndProjectId
+Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationGroups, Rename, Delete
+Project | FindAll, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
+Root |
+Database Users |
+Custom MongoDB Roles |
+Project IP Whitelist |
+Invoices |
+Teams |
+Clusters |
+Global Clusters |
+Alerts |
+Alert Configurations |
+Maintenance Windows |
+LDAP Configuration |
+Full Text Search |
+Continuous Backup Snapshots |
+Continuous Backup Snapshot Schedule |
+Continuous Backup Restore Job |
+Cloud Provider and On-demand Snapshots |
+Cloud Provider Snapshot Restore Job |
+Cloud Provider Snapshot Backup Policy |
+M2/M5 Snapshots |
+M2/M5 Snapshot Restore Jobs |
+Checkpoints |
+Network Peering |
+Private Endpoints |
+Personal API Key Whitelist |
+Programmatic API Keys |
+Monitoring and Logs |
+Performance Advisor |
+Auditing |
+Encryption at Rest |
+Atlas Users |
+Events |
+Access Tracking |
+Data Lakes |
 
 ## Contribue
 
