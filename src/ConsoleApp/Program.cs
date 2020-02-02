@@ -9,9 +9,12 @@ using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.DependencyInjection;
+using MongoDb.Atlas.Client.ConsoleApp.Extensions;
+using Newtonsoft.Json;
 
 namespace MongoDb.Atlas.Client.ConsoleApp
 {
@@ -24,17 +27,23 @@ namespace MongoDb.Atlas.Client.ConsoleApp
             [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\").")]
             public string Action { get; set; }
 
-            [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"orgs\").")]
+            [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"orgs\", \"projects\", \"events\", \"whitelist\").")]
             public string Resource { get; set; }
 
             [Value(2, MetaValue = "Id", Required = false, HelpText = "ID.")]
             public string Id { get; set; }
 
-            [Option('u', "publickey", Required = false, HelpText = "Public Api key provided by MongoDB Atlas.")]
+            [Option("publickey", Required = false, HelpText = "Public Api key provided by MongoDB Atlas.")]
             public string PublicKey { get; set; }
 
-            [Option('p', "privatekey", Required = false, HelpText = "Private Api key provided by MongoDB Atlas (KEEP IT SECRET!).")]
+            [Option("privatekey", Required = false, HelpText = "Private Api key provided by MongoDB Atlas (KEEP IT SECRET!).")]
             public string PrivateKey { get; set; }
+
+            [Option('p', "project", Required = false, HelpText = "Project id.")]
+            public string Project { get; set; }
+
+            [Option('q', "query", Required = false, HelpText = "Information to send back.")]
+            public string Query { get; set; }
 
             [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
             public bool IsVerbose { get; set; }
@@ -62,7 +71,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         #endregion
 
         #region Private helpers
-        
+
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
         {
             if (opts.Action == "config")
@@ -99,12 +108,68 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                         if (opts.Resource == "orgs")
                         {
                             LogVerbose(opts, "Query the organizations collection");
-                            
-                            var organizationRepository = serviceProvider.GetService<IOrganizationRepository>();
-                            var orgs = await organizationRepository.FindAll();
 
-                            Console.WriteLine($"Items found: {orgs.Count}");
-                            Console.WriteLine($"First organization found: {orgs.FirstOrDefault().Name}");
+                            var organizationRepository = serviceProvider.GetService<IOrganizationRepository>();
+                            var orgs = await organizationRepository.FindAllAsync();
+
+                            if (!string.IsNullOrEmpty(opts.Query))
+                            {
+                                var property = typeof(OrganizationModel).GetProperty(opts.Query.FirstCharToUpper());
+                                Console.WriteLine(property.GetValue(orgs.First()));
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Items found: {orgs.Count}");
+                                Console.WriteLine($"First organization found: {orgs.FirstOrDefault().Name}");
+                            }
+                        }
+                        else if (opts.Resource == "projects")
+                        {
+                            LogVerbose(opts, "Query the projects collection");
+
+                            var projectRepository = serviceProvider.GetService<IProjectRepository>();
+                            var projects = await projectRepository.FindAllAsync();
+
+                            if (!string.IsNullOrEmpty(opts.Query))
+                            {
+                                var property = typeof(ProjectModel).GetProperty(opts.Query.FirstCharToUpper());
+                                Console.WriteLine(property.GetValue(projects.First()));
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Items found: {projects.Count}");
+                                Console.WriteLine($"First organization found: {projects.FirstOrDefault().Name}");
+                            }
+                        }
+                        else if (opts.Resource == "events")
+                        {
+                            if (string.IsNullOrEmpty(opts.Project))
+                            {
+                                Console.WriteLine("The project must be specified");
+                                return -1;
+                            }
+
+                            LogVerbose(opts, "Query the projects collection");
+
+                            var projectRepository = serviceProvider.GetService<IProjectRepository>();
+                            var events = await projectRepository.FindAllEventsByProjectIdAsync(opts.Project);
+
+                            Console.WriteLine(JsonConvert.SerializeObject(events));
+                        }
+                        else if (opts.Resource == "whitelist")
+                        {
+                            if (string.IsNullOrEmpty(opts.Project))
+                            {
+                                Console.WriteLine("The project must be specified");
+                                return -1;
+                            }
+
+                            LogVerbose(opts, "Query the projects collection");
+
+                            var projectRepository = serviceProvider.GetService<IProjectRepository>();
+                            var whitelist = await projectRepository.FindAllWhiteListIpAddressesByProjectIdAsync(opts.Project);
+
+                            Console.WriteLine(JsonConvert.SerializeObject(whitelist));
                         }
                         else
                         {
@@ -154,7 +219,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                             .AddConsole();
                     })
                 .AddSingleton(configuration)
-                .AddMongoDbAtlasRestApi<AppConfiguration>(new AppConfiguration(configuration));
+                .AddMongoDbAtlasRestApi(new AppConfiguration(configuration));
 
             ConfigureAutoMapper(serviceCollection);
 

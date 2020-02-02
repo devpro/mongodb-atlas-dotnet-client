@@ -12,7 +12,7 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <LangVersion>8.0</LangVersion>
     <AutoGenerateAssemblyVersion>true</AutoGenerateAssemblyVersion>
-    <Description>Command line tool for executing calls to MongoDB Atlas API</Description>
+    <Description>Command line tool to administrate MongoDB Atlas (through their API)</Description>
     <Authors>Bertrand THOMAS</Authors>
     <PackageProjectUrl>https://github.com/devpro/mongodb-atlas-dotnet-client</PackageProjectUrl>
     <RepositoryUrl>https://github.com/devpro/mongodb-atlas-dotnet-client</RepositoryUrl>

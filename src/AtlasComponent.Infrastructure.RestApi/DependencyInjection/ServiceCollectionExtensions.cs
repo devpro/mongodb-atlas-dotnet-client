@@ -27,10 +27,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.DependencyI
 
             services.TryAddTransient<IMongoDbAtlasRestApiConfiguration, T>();
             services.TryAddTransient<Domain.Repositories.IOrganizationRepository, Repositories.OrganizationRepository>();
+            services.TryAddTransient<Domain.Repositories.IProjectRepository, Repositories.ProjectRepository>();
 
             // hack: needed to make the Digest call work
             // see: https://stackoverflow.com/questions/53764083/use-http-2-with-httpclient-in-net,
-            //  https://docs.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler?view=netcore-3.1
+            //  https://docs.microsoft.com/en-us/dotnet/api/system.net.http.socketshttphandler?view=netcore-3.1,
             //  https://github.com/dotnet/corefx/issues/37729
             AppContext.SetSwitch("System.Net.Http.UseSocketsHttpHandler", false);
 

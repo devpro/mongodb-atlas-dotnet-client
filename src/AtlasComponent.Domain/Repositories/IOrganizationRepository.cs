@@ -6,6 +6,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories
 {
     public interface IOrganizationRepository
     {
-        Task<List<OrganizationModel>> FindAll();
+        Task<List<OrganizationModel>> FindAllAsync();
     }
 }

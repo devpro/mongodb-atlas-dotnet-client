@@ -14,6 +14,22 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.MappingProf
             CreateMap<Dto.OrganizationDto, Domain.Models.OrganizationModel>();
             CreateMap<Domain.Models.OrganizationModel, Dto.OrganizationDto>()
                 .ForMember(x => x.Links, opt => opt.Ignore());
+
+            CreateMap<Dto.ProjectDto, Domain.Models.ProjectModel>()
+                .ForMember(x => x.CreatedAt, opt => opt.MapFrom(x => x.Created))
+                .ForMember(x => x.OrganizationId, opt => opt.MapFrom(x => x.OrgId));
+            CreateMap<Domain.Models.ProjectModel, Dto.ProjectDto>()
+                .ForMember(x => x.Created, opt => opt.MapFrom(x => x.CreatedAt))
+                .ForMember(x => x.OrgId, opt => opt.MapFrom(x => x.OrganizationId))
+                .ForMember(x => x.Links, opt => opt.Ignore());
+
+            CreateMap<Dto.EventDto, Domain.Models.EventModel>();
+            CreateMap<Domain.Models.EventModel, Dto.EventDto>()
+                .ForMember(x => x.Links, opt => opt.Ignore());
+
+            CreateMap<Dto.WhiteListIpDto, Domain.Models.WhiteListIpModel>();
+            CreateMap<Domain.Models.WhiteListIpModel, Dto.WhiteListIpDto>()
+                .ForMember(x => x.Links, opt => opt.Ignore());
         }
     }
 }
