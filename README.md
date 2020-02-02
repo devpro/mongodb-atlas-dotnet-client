@@ -21,9 +21,11 @@ dotnet tool install --global mdbatlas
 
 An API key must be created in MongoDB Atlas, follow the instructions given in the page [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
 
+This action should provide you with the public key and the private key.
+
 :warning: Make sure your IP is in the Api key white list!
 
-* Use config command (where xxx is the public key and yyyy the private key, both informations given by MongoDB Atlas)
+* Use the tool `config` action
 
 ```bash
 mdbatlas config -u <publickey> -p <privatekey>
@@ -37,6 +39,12 @@ SET mdbatlas__PrivateKey=<privatekey>
 ```
 
 ### How to use
+
+You can make a quick check by listing the organizations you have access:
+
+```bash
+mdbatlas list orgs
+```
 
 You can see all options by running the help command:
 

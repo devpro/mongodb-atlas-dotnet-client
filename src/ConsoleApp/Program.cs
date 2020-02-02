@@ -154,7 +154,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                             .AddConsole();
                     })
                 .AddSingleton(configuration)
-                .AddMongoDbAtlasRestApi<AppConfiguration>(new AppConfiguration(configuration));
+                .AddMongoDbAtlasRestApi(new AppConfiguration(configuration));
 
             ConfigureAutoMapper(serviceCollection);
 
