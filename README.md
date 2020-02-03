@@ -7,7 +7,7 @@
 
 MongoDB Atlas API client, written in C#, working with .NET Core.
 
-This is particularly interesting to automate your Cloud infrastructure, from a pipeline for instance.
+This is particularly interesting in order to automate your Cloud infrastructure (from a pipeline for instance).
 
 Examples:
 
@@ -21,7 +21,7 @@ mdbatlas list projects --query id
 # Get last events
 mdbatlas list events -p <projectid>
 
-# Display IP while list IP addresses
+# Display IP while list
 mdbatlas list whitelist -p <projectid>
 ```
 
@@ -29,9 +29,9 @@ mdbatlas list whitelist -p <projectid>
 
 ### How to install
 
-As a requirement, you only have to install the latest [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) (open source tool with a minimzed footprint).
+As a requirement, you only have to install the latest [.NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x) (open source tool with a minimized footprint).
 
-As a .NET global tool, `mdbatlas` is installed from the Nuget package:
+As a .NET global tool, `mdbatlas` is installed from the NuGet package:
 
 ```bash
 dotnet tool install --global mdbatlas
@@ -39,7 +39,7 @@ dotnet tool install --global mdbatlas
 
 ### How to configure
 
-An API key must be created in MongoDB Atlas, follow the instructions given in the page [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
+An API key must be created in MongoDB Atlas. If you're not familier with it, the instructions are given in the page [Configure Atlas API Access](https://docs.atlas.mongodb.com/configure-api-access/).
 
 This action should provide you with the public key and the private key.
 
