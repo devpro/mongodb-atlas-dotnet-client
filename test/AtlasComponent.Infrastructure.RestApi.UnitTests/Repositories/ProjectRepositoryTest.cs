@@ -10,7 +10,6 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories;
-using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Fakes;
 using Moq;
 using Newtonsoft.Json;
 using Xunit;
@@ -42,7 +41,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(JsonConvert.SerializeObject(responseDto))
             };
-            var repository = BuildRepository(httpResponseMessage);
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups");
 
             // Act
             var output = await repository.FindAllAsync();
@@ -55,25 +54,67 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
         #endregion
 
+        #region FindAllEventsByProjectId test methods
+
+        [Fact]
+        public async Task ProjectRepositoryFindAllEventsByProjectId_ReturnListFromApiCall()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var responseDto = fixture.Create<ResultListDto<EventDto>>();
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+            };
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/events");
+
+            // Act
+            var output = await repository.FindAllEventsByProjectIdAsync("42");
+
+            // Assert
+            output.Should().NotBeNull();
+            output.Should().HaveCount(responseDto.Results.Count);
+            output.First().Should().BeEquivalentTo(Mapper.Map<EventModel>(responseDto.Results.First()));
+        }
+
+        #endregion
+
+        #region FindAllWhiteListIpAddressesByProjectId test methods
+
+        [Fact]
+        public async Task ProjectRepositoryFindAllWhiteListIpAddressesByProjectId_ReturnListFromApiCall()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var responseDto = fixture.Create<ResultListDto<WhiteListIpDto>>();
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+            };
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/whitelist");
+
+            // Act
+            var output = await repository.FindAllWhiteListIpAddressesByProjectIdAsync("42");
+
+            // Assert
+            output.Should().NotBeNull();
+            output.Should().HaveCount(responseDto.Results.Count);
+            output.First().Should().BeEquivalentTo(Mapper.Map<WhiteListIpModel>(responseDto.Results.First()));
+        }
+
+        #endregion
+
         #region Private methods
 
-        private IProjectRepository BuildRepository(HttpResponseMessage httpResponseMessage)
+        private IProjectRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
-            var configuration = new DummyMongoDbAtlasRestApiConfiguration();
-
             var logger = ServiceProvider.GetService<ILogger<ProjectRepository>>();
 
-            var fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
-            fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>()))
-                .Returns(httpResponseMessage);
+            var httpClientFactoryMock = BuildHttpClientFactory(httpResponseMessage, httpMethod, absoluteUri);
 
-            var httpClient = new HttpClient(fakeHttpMessageHandler.Object);
-
-            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
-            httpClientFactoryMock.Setup(x => x.CreateClient(configuration.HttpClientName))
-                .Returns(httpClient);
-
-            return new ProjectRepository(configuration, logger, httpClientFactoryMock.Object, Mapper);
+            return new ProjectRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
 
         #endregion

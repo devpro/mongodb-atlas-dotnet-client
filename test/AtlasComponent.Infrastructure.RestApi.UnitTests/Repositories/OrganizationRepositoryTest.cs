@@ -38,11 +38,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             var fixture = new Fixture();
             var responseDto = fixture.Create<ResultListDto<OrganizationDto>>();
             var httpResponseMessage = new HttpResponseMessage
-                {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(JsonConvert.SerializeObject(responseDto))
-                };
-            var repository = BuildRepository(httpResponseMessage);
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+            };
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/orgs");
 
             // Act
             var output = await repository.FindAllAsync();
@@ -57,23 +57,13 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
         #region Private methods
 
-        private IOrganizationRepository BuildRepository(HttpResponseMessage httpResponseMessage)
+        private IOrganizationRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
-            var configuration = new DummyMongoDbAtlasRestApiConfiguration();
-
             var logger = ServiceProvider.GetService<ILogger<OrganizationRepository>>();
 
-            var fakeHttpMessageHandler = new Mock<FakeHttpMessageHandler> { CallBase = true };
-            fakeHttpMessageHandler.Setup(f => f.Send(It.IsAny<HttpRequestMessage>()))
-                .Returns(httpResponseMessage);
+            var httpClientFactoryMock = BuildHttpClientFactory(httpResponseMessage, httpMethod, absoluteUri);
 
-            var httpClient = new HttpClient(fakeHttpMessageHandler.Object);
-
-            var httpClientFactoryMock = new Mock<IHttpClientFactory>();
-            httpClientFactoryMock.Setup(x => x.CreateClient(configuration.HttpClientName))
-                .Returns(httpClient);
-
-            return new OrganizationRepository(configuration, logger, httpClientFactoryMock.Object, Mapper);
+            return new OrganizationRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
 
         #endregion
