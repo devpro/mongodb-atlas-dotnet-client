@@ -11,29 +11,17 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 {
     public class OrganizationRepository : RepositoryBase, IOrganizationRepository
     {
-        #region Constructor
-
         public OrganizationRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<OrganizationRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }
 
-        #endregion
-
-        #region RepositoryBase Properties
-
         protected override string ResourceName => "orgs";
-
-        #endregion
-
-        #region IOrganizationRepository methods
 
         public async Task<List<OrganizationModel>> FindAllAsync()
         {
             var resultList = await GetAsync<ResultListDto<OrganizationDto>>(GenerateUrl());
             return Mapper.Map<List<OrganizationModel>>(resultList.Results);
         }
-
-        #endregion
     }
 }

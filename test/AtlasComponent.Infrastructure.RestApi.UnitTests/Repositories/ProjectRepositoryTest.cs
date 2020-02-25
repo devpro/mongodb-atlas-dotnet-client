@@ -10,7 +10,6 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories;
-using Moq;
 using Newtonsoft.Json;
 using Xunit;
 

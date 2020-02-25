@@ -15,17 +15,17 @@ Examples:
 # List your organizations
 mdbatlas list orgs
 
-# Get your first project id
+# get your first project id
 mdbatlas list projects --query id
 
-# Get last events
+# get last events
 mdbatlas list events -p <projectid>
 
-# Display IP while list
+# display IP while list
 mdbatlas list whitelist -p <projectid>
 ```
 
-## Quick start
+## User manual
 
 ### How to install
 
@@ -60,16 +60,25 @@ SET mdbatlas__PrivateKey=<privatekey>
 
 ### How to use
 
-You can make a quick check by listing the organizations you have access:
+#### Quick start
 
 ```bash
+# display tool version
+mdbatlas --version
+
+# display help
+mdbatlas --help
+
+# configure
+mdbatlas config --publickey mypublickey --privatekey mysecretprivatekey
+
+# list all the organizations your account have access to
 mdbatlas list orgs
 ```
 
-You can see all options by running the help command:
+#### Examples
 
 ```bash
-mdbatlas --help
 ```
 
 ### How to uninstall

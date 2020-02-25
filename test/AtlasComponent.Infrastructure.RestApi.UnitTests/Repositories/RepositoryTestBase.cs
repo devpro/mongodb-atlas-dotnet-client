@@ -1,8 +1,6 @@
 ﻿using System.Net.Http;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Fakes;
 using Moq;
 
@@ -10,8 +8,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 {
     public abstract class RepositoryTestBase
     {
-        #region Protected properties & Constructor
-
         protected ServiceProvider ServiceProvider { get; private set; }
         protected IMapper Mapper { get; private set; }
         protected IMongoDbAtlasRestApiConfiguration Configuration { get; set; }
@@ -26,10 +22,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             Configuration = new DummyMongoDbAtlasRestApiConfiguration();
             HttpMessageHandlerMock = new Mock<FakeHttpMessageHandler> { CallBase = true };
         }
-
-        #endregion
-
-        #region Protected methods
 
         protected virtual IMapper BuildAutoMapper()
         {
@@ -56,7 +48,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
             return httpClientFactoryMock;
         }
-
-        #endregion
     }
 }

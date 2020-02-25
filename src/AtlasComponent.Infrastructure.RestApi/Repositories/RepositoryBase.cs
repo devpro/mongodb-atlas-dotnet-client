@@ -11,7 +11,13 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 {
     public abstract class RepositoryBase
     {
-        #region Protected properties & constructors
+        protected RepositoryBase(IMongoDbAtlasRestApiConfiguration configuration, ILogger logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        {
+            Configuration = configuration;
+            Logger = logger;
+            HttpClientFactory = httpClientFactory;
+            Mapper = mapper;
+        }
 
         protected IMongoDbAtlasRestApiConfiguration Configuration { get; private set; }
 
@@ -21,23 +27,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         protected IMapper Mapper { get; private set; }
 
-        protected RepositoryBase(IMongoDbAtlasRestApiConfiguration configuration, ILogger logger, IHttpClientFactory httpClientFactory, IMapper mapper)
-        {
-            Configuration = configuration;
-            Logger = logger;
-            HttpClientFactory = httpClientFactory;
-            Mapper = mapper;
-        }
-
-        #endregion
-
-        #region Abstract properties
-
         protected abstract string ResourceName { get; }
-
-        #endregion
-
-        #region Protected methods
 
         protected string GenerateUrl(string arguments = "")
         {
@@ -77,16 +67,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             }
         }
 
-        #endregion
-
-        #region Private methods
-
         private void SetDefaultRequestHeaders(HttpClient client)
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
-        #endregion
     }
 }
