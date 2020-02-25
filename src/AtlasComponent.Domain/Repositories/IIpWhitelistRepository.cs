@@ -7,5 +7,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories
     public interface IIpWhitelistRepository
     {
         Task<List<IpWhitelistRecordModel>> FindAllAsync(string projectId);
+
+        Task<IpWhitelistRecordModel> CreateAsync(string projectId, IpWhitelistRecordModel input);
     }
 }

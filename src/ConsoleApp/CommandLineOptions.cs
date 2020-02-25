@@ -4,7 +4,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 {
     public class CommandLineOptions
     {
-        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\").")]
+        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\", \"edit\").")]
         public string Action { get; set; }
 
         [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"orgs\", \"projects\", \"events\", \"whitelist\").")]
@@ -24,6 +24,9 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 
         [Option('q', "query", Required = false, HelpText = "Information to send back.")]
         public string Query { get; set; }
+
+        [Option("values", Required = false, HelpText = "Data values.")]
+        public string Values { get; set; }
 
         [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
         public bool IsVerbose { get; set; }

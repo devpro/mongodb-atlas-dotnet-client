@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,12 +8,9 @@ using CommandLine;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
-using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.DependencyInjection;
-using Withywoods.Serialization.Json;
-using Withywoods.System;
+using MongoDb.Atlas.Client.ConsoleApp.Tasks;
 
 namespace MongoDb.Atlas.Client.ConsoleApp
 {
@@ -65,93 +61,32 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 
             using var serviceProvider = CreateServiceProvider(opts, configuration);
 
-            switch (opts.Action)
+            var factory = new ConsoleTaskFactory(serviceProvider);
+
+            var task = factory.Create(opts.Action, opts.Resource, out var errorMessage);
+            if (task == null)
             {
-                case "list":
-                    if (string.IsNullOrEmpty(opts.Resource))
-                    {
-                        Console.WriteLine("The resource must be specified");
-                        return -1;
-                    }
-
-                    if (opts.Resource == "orgs")
-                    {
-                        LogVerbose(opts, "Query the organizations collection");
-
-                        var organizationRepository = serviceProvider.GetService<IOrganizationRepository>();
-                        var orgs = await organizationRepository.FindAllAsync();
-
-                        if (!string.IsNullOrEmpty(opts.Query))
-                        {
-                            var property = typeof(OrganizationModel).GetProperty(opts.Query.FirstCharToUpper());
-                            Console.WriteLine(property.GetValue(orgs.First()));
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Items found: {orgs.Count}");
-                            Console.WriteLine($"First organization found: {orgs.FirstOrDefault().Name}");
-                        }
-                    }
-                    else if (opts.Resource == "projects")
-                    {
-                        LogVerbose(opts, "Query the projects collection");
-
-                        var projectRepository = serviceProvider.GetService<IProjectRepository>();
-                        var projects = await projectRepository.FindAllAsync();
-
-                        if (!string.IsNullOrEmpty(opts.Query))
-                        {
-                            var property = typeof(ProjectModel).GetProperty(opts.Query.FirstCharToUpper());
-                            Console.WriteLine(property.GetValue(projects.First()));
-                        }
-                        else
-                        {
-                            Console.WriteLine($"Items found: {projects.Count}");
-                            Console.WriteLine($"First organization found: {projects.FirstOrDefault().Name}");
-                        }
-                    }
-                    else if (opts.Resource == "events")
-                    {
-                        if (string.IsNullOrEmpty(opts.Project))
-                        {
-                            Console.WriteLine("The project must be specified");
-                            return -1;
-                        }
-
-                        LogVerbose(opts, "Query the projects collection");
-
-                        var projectRepository = serviceProvider.GetService<IProjectRepository>();
-                        var events = await projectRepository.FindAllEventsByProjectIdAsync(opts.Project);
-
-                        Console.WriteLine(events.ToJson());
-                    }
-                    else if (opts.Resource == "whitelist")
-                    {
-                        if (string.IsNullOrEmpty(opts.Project))
-                        {
-                            Console.WriteLine("The project must be specified");
-                            return -1;
-                        }
-
-                        LogVerbose(opts, "Query the projects collection");
-
-                        var whitelistRepository = serviceProvider.GetService<IIpWhitelistRepository>();
-                        var whitelist = await whitelistRepository.FindAllAsync(opts.Project);
-
-                        Console.WriteLine(whitelist.ToJson());
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Unknown resource \"{opts.Resource}\"");
-                        return -1;
-                    }
-                    break;
-                default:
-                    Console.WriteLine($"Unknown action \"{opts.Action}\"");
-                    return -1;
+                Console.WriteLine(errorMessage);
+                return -1;
             }
 
-            return 0;
+            try
+            {
+                var output = await task.ExecuteAsync(opts);
+                if (string.IsNullOrEmpty(output))
+                {
+                    Console.WriteLine("No data returned");
+                    return -1;
+                }
+
+                Console.WriteLine(output);
+                return 0;
+            }
+            catch (Exception exc)
+            {
+                Console.WriteLine($"An error occured: {exc.Message}");
+                return -2;
+            }
         }
 
         private static int HandleParseError()

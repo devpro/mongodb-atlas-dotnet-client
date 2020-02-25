@@ -27,5 +27,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             var resultList = await GetAsync<ResultListDto<IpWhitelistRecordDto>>(GenerateUrl($"/{projectId}/whitelist"));
             return Mapper.Map<List<IpWhitelistRecordModel>>(resultList.Results);
         }
+
+        public async Task<IpWhitelistRecordModel> CreateAsync(string projectId, IpWhitelistRecordModel input)
+        {
+            var created = await PostAsync<IpWhitelistRecordDto>(GenerateUrl($"/{projectId}/whitelist"), input);
+            return Mapper.Map<IpWhitelistRecordModel>(created);
+        }
     }
 }
