@@ -15,7 +15,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 
         public IConsoleTask Create(string action, string resource, out string errorMessage)
         {
-            errorMessage = "";
+            errorMessage = null;
             switch (resource)
             {
                 case "events":
@@ -32,7 +32,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
                 case "orgs":
                     if (action == "list")
                     {
-                        return new ListOrganizationsTask(_serviceProvider.GetService<ILogger<ListOrganizationsTask>>(),
+                        return new ListOrganizationTask(_serviceProvider.GetService<ILogger<ListOrganizationTask>>(),
                             _serviceProvider.GetService<IOrganizationRepository>());
                     }
                     else

@@ -20,7 +20,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 
         public async Task<string> ExecuteAsync(CommandLineOptions options)
         {
-            if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Project))
+            if (string.IsNullOrEmpty(options.Project) || string.IsNullOrEmpty(options.Values))
             {
                 return null;
             }

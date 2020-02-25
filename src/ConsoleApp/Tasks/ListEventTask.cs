@@ -23,7 +23,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
             {
                 return null;
             }
-            
+
             _logger.LogDebug("Query the events collection");
 
             var events = await _projectRepository.FindAllEventsByProjectIdAsync(options.Project);

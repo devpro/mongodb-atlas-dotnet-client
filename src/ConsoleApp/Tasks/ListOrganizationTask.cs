@@ -7,12 +7,12 @@ using Withywoods.System;
 
 namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 {
-    public class ListOrganizationsTask : IConsoleTask
+    public class ListOrganizationTask : IConsoleTask
     {
-        private readonly ILogger<ListOrganizationsTask> _logger;
+        private readonly ILogger<ListOrganizationTask> _logger;
         private readonly IOrganizationRepository _organizationRepository;
 
-        public ListOrganizationsTask(ILogger<ListOrganizationsTask> logger, IOrganizationRepository organizationRepository)
+        public ListOrganizationTask(ILogger<ListOrganizationTask> logger, IOrganizationRepository organizationRepository)
         {
             _logger = logger;
             _organizationRepository = organizationRepository;
