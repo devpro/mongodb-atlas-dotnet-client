@@ -8,6 +8,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories
     {
         Task<List<IpWhitelistRecordModel>> FindAllAsync(string projectId);
 
-        Task<List<IpWhitelistRecordModel>> CreateAsync(string projectId, string cidr, string comment);
+        Task<List<IpWhitelistRecordModel>> CreateAsync(string projectId, List<IpWhitelistRecordModel> input);
     }
 }

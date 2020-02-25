@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -28,17 +29,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             return Mapper.Map<List<IpWhitelistRecordModel>>(resultList.Results);
         }
 
-        public async Task<List<IpWhitelistRecordModel>> CreateAsync(string projectId, string cidr, string comment)
+        public async Task<List<IpWhitelistRecordModel>> CreateAsync(string projectId, List<IpWhitelistRecordModel> input)
         {
             var created = await PostAsync<ResultListDto<IpWhitelistRecordDto>>(GenerateUrl($"/{projectId}/whitelist"),
-                new []
-                {
-                    new
-                    {
-                        cidrBlock = cidr,
-                        comment = comment
-                    }
-                });
+                input.Select(x => new { cidrBlock = x.CidrBlock, comment = x.Comment }));
             return Mapper.Map<List<IpWhitelistRecordModel>>(created.Results);
         }
     }

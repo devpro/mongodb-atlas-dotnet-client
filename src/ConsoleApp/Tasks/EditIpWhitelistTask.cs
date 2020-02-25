@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
@@ -30,7 +31,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 
             var input = options.Values.Split(",");
 
-            var nbCreated = 0;
+            var newEntries = new List<IpWhitelistRecordModel>();
             foreach (var entry in input)
             {
                 var ipAddress = entry.Split(":")[0];
@@ -38,14 +39,18 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
                 var cidr = $"{ipAddress}/32";
                 if (!whitelist.Any(x => x.CidrBlock == cidr || x.IpAddress == ipAddress))
                 {
-                    _logger.LogDebug("Add new ip whitelist");
-
-                    _ = await _ipWhitelistRepository.CreateAsync(options.Project, cidr, comment);
-                    nbCreated++;
+                    newEntries.Add(new IpWhitelistRecordModel { CidrBlock = cidr, Comment = comment });
                 }
             }
 
-            return $"IP white list updated ({nbCreated} added on initial {whitelist.Count})";
+            if (newEntries.Any())
+            {
+                _logger.LogDebug($"Add {newEntries.Count} new ip whitelist entrie(s)", newEntries.Count);
+
+                _ = await _ipWhitelistRepository.CreateAsync(options.Project, newEntries);
+            }
+
+            return $"IP white list updated ({newEntries.Count} added on initial {whitelist.Count})";
         }
     }
 }
