@@ -4,7 +4,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 {
     public class CommandLineOptions
     {
-        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\", \"edit\").")]
+        [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\", \"edit\", \"delete\").")]
         public string Action { get; set; }
 
         [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"orgs\", \"projects\", \"events\", \"whitelist\").")]

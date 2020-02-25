@@ -62,9 +62,14 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
                         return new EditIpWhitelistTask(_serviceProvider.GetService<ILogger<EditIpWhitelistTask>>(),
                             _serviceProvider.GetService<IIpWhitelistRepository>());
                     }
+                    else if (action == "delete")
+                    {
+                        return new DeleteIpWhitelistTask(_serviceProvider.GetService<ILogger<DeleteIpWhitelistTask>>(),
+                            _serviceProvider.GetService<IIpWhitelistRepository>());
+                    }
                     else
                     {
-                        errorMessage = $"Unknown action \"{action}\" for resource \"{resource}\". Possible actions: \"list\", \"create\"";
+                        errorMessage = $"Unknown action \"{action}\" for resource \"{resource}\". Possible actions: \"list\", \"create\", \"delete\"";
                         return null;
                     }
                 default:

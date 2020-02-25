@@ -79,6 +79,20 @@ mdbatlas list orgs
 #### Examples
 
 ```bash
+# get the first project id
+mdbatlas list projects --query id
+
+# list recents events for a given project
+mdbatlas list events --project myprojectid
+
+# list all IP whitelist record for a given project
+mdbatlas list whitelist --project myprojectid
+
+# add entries to IP whitelist for a given project (will only add the ones not already defined)
+mdbatlas edit whitelist --project myprojectid --values "W.X.Y.Z:My first IP comment,A.B.C.D:Second ip comment"
+
+# delete specific entries in the IP whitelist of a given project
+mdbatlas delete whitelist --project myprojectid --values --values "W.X.Y.Z,A.B.C.D"
 ```
 
 ### How to uninstall
@@ -142,7 +156,7 @@ Resource | Method
 Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId
 Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationProjects, Rename, Delete
 Project | FindAll:heavy_check_mark:, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
-Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create, Delete
+Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create:heavy_check_mark:, Delete
 Root |
 Database Users |
 Custom MongoDB Roles |
@@ -173,7 +187,7 @@ Performance Advisor |
 Auditing |
 Encryption at Rest |
 Atlas Users |
-Events |
+Events | FindAllByProjectId:heavy_check_mark:
 Access Tracking |
 Data Lakes |
 

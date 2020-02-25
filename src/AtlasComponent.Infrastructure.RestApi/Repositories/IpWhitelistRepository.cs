@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -25,15 +26,23 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
         public async Task<List<IpWhitelistRecordModel>> FindAllAsync(string projectId)
         {
-            var resultList = await GetAsync<ResultListDto<IpWhitelistRecordDto>>(GenerateUrl($"/{projectId}/whitelist"));
+            var url = GenerateUrl($"/{projectId}/whitelist");
+            var resultList = await GetAsync<ResultListDto<IpWhitelistRecordDto>>(url);
             return Mapper.Map<List<IpWhitelistRecordModel>>(resultList.Results);
         }
 
         public async Task<List<IpWhitelistRecordModel>> CreateAsync(string projectId, List<IpWhitelistRecordModel> input)
         {
-            var created = await PostAsync<ResultListDto<IpWhitelistRecordDto>>(GenerateUrl($"/{projectId}/whitelist"),
+            var url = GenerateUrl($"/{projectId}/whitelist");
+            var created = await PostAsync<ResultListDto<IpWhitelistRecordDto>>(url,
                 input.Select(x => new { cidrBlock = x.CidrBlock, comment = x.Comment }));
             return Mapper.Map<List<IpWhitelistRecordModel>>(created.Results);
+        }
+
+        public async Task DeleteAsync(string projectId, IpWhitelistRecordModel input)
+        {
+            var url = GenerateUrl($"/{projectId}/whitelist/{WebUtility.UrlEncode(input.CidrBlock)}");
+            await DeleteAsync(url);
         }
     }
 }

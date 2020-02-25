@@ -7,12 +7,12 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 
 namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 {
-    public class EditIpWhitelistTask : IConsoleTask
+    public class DeleteIpWhitelistTask : IConsoleTask
     {
-        private readonly ILogger<EditIpWhitelistTask> _logger;
+        private readonly ILogger<DeleteIpWhitelistTask> _logger;
         private readonly IIpWhitelistRepository _ipWhitelistRepository;
 
-        public EditIpWhitelistTask(ILogger<EditIpWhitelistTask> logger, IIpWhitelistRepository ipWhitelistRepository)
+        public DeleteIpWhitelistTask(ILogger<DeleteIpWhitelistTask> logger, IIpWhitelistRepository ipWhitelistRepository)
         {
             _logger = logger;
             _ipWhitelistRepository = ipWhitelistRepository;
@@ -31,26 +31,28 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
 
             var input = options.Values.Split(",");
 
-            var newEntries = new List<IpWhitelistRecordModel>();
+            var existingEntries = new List<IpWhitelistRecordModel>();
             foreach (var entry in input)
             {
                 var ipAddress = entry.Split(":")[0];
-                var comment = entry.Contains(':') ? entry.Split(":")[1] : "Created by mdbatlas";
                 var cidr = $"{ipAddress}/32";
-                if (!whitelist.Any(x => x.CidrBlock == cidr || x.IpAddress == ipAddress))
+                if (whitelist.Any(x => x.CidrBlock == cidr || x.IpAddress == ipAddress))
                 {
-                    newEntries.Add(new IpWhitelistRecordModel { CidrBlock = cidr, Comment = comment });
+                    existingEntries.Add(new IpWhitelistRecordModel { CidrBlock = cidr });
                 }
             }
 
-            if (newEntries.Any())
+            if (existingEntries.Any())
             {
-                _logger.LogDebug($"Add {newEntries.Count} new ip whitelist entrie(s)");
+                _logger.LogDebug($"Remove {existingEntries.Count} entrie(s) from the ip whitelist entrie(s)");
 
-                _ = await _ipWhitelistRepository.CreateAsync(options.Project, newEntries);
+                foreach (var existing in existingEntries)
+                {
+                    await _ipWhitelistRepository.DeleteAsync(options.Project, existing);
+                }
             }
 
-            return $"IP white list updated ({newEntries.Count} added on initial {whitelist.Count})";
+            return $"IP white list updated ({existingEntries.Count} removed on initial {whitelist.Count})";
         }
     }
 }
