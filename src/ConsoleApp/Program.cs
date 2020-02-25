@@ -13,7 +13,7 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.DependencyInjection;
-using Newtonsoft.Json;
+using Withywoods.Serialization.Json;
 using Withywoods.System;
 
 namespace MongoDb.Atlas.Client.ConsoleApp
@@ -123,7 +123,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                         var projectRepository = serviceProvider.GetService<IProjectRepository>();
                         var events = await projectRepository.FindAllEventsByProjectIdAsync(opts.Project);
 
-                        Console.WriteLine(JsonConvert.SerializeObject(events));
+                        Console.WriteLine(events.ToJson());
                     }
                     else if (opts.Resource == "whitelist")
                     {
@@ -138,7 +138,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                         var whitelistRepository = serviceProvider.GetService<IIpWhitelistRepository>();
                         var whitelist = await whitelistRepository.FindAllAsync(opts.Project);
 
-                        Console.WriteLine(JsonConvert.SerializeObject(whitelist));
+                        Console.WriteLine(whitelist.ToJson());
                     }
                     else
                     {

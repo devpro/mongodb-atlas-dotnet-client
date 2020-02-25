@@ -10,7 +10,7 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories;
-using Newtonsoft.Json;
+using Withywoods.Serialization.Json;
 using Xunit;
 
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Repositories
@@ -38,7 +38,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+                Content = new StringContent(responseDto.ToJson())
             };
             var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/whitelist");
 

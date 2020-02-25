@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Exceptions;
-using Newtonsoft.Json;
 using Withywoods.Serialization.Json;
 
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories
@@ -59,7 +58,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 
             try
             {
-                return JsonConvert.DeserializeObject<T>(stringResult);
+                return stringResult.FromJson<T>();
             }
             catch (Exception exc)
             {
