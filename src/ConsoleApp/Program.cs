@@ -20,37 +20,6 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 {
     static class Program
     {
-        #region Inner class
-
-        public class CommandLineOptions
-        {
-            [Value(0, MetaValue = "Action", Required = true, HelpText = "Action (possible values: \"list\").")]
-            public string Action { get; set; }
-
-            [Value(1, MetaValue = "Resource", Required = false, HelpText = "Resource (possible values: \"orgs\", \"projects\", \"events\", \"whitelist\").")]
-            public string Resource { get; set; }
-
-            [Value(2, MetaValue = "Id", Required = false, HelpText = "ID.")]
-            public string Id { get; set; }
-
-            [Option("publickey", Required = false, HelpText = "Public Api key provided by MongoDB Atlas.")]
-            public string PublicKey { get; set; }
-
-            [Option("privatekey", Required = false, HelpText = "Private Api key provided by MongoDB Atlas (KEEP IT SECRET!).")]
-            public string PrivateKey { get; set; }
-
-            [Option('p', "project", Required = false, HelpText = "Project id.")]
-            public string Project { get; set; }
-
-            [Option('q', "query", Required = false, HelpText = "Information to send back.")]
-            public string Query { get; set; }
-
-            [Option('v', "verbose", Required = false, HelpText = "Set output to verbose messages.")]
-            public bool IsVerbose { get; set; }
-        }
-
-        #endregion
-
         #region Constants
 
         private const string _AppsettingsFilename = "appsettings.json";
@@ -166,8 +135,8 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 
                         LogVerbose(opts, "Query the projects collection");
 
-                        var projectRepository = serviceProvider.GetService<IProjectRepository>();
-                        var whitelist = await projectRepository.FindAllWhiteListIpAddressesByProjectIdAsync(opts.Project);
+                        var whitelistRepository = serviceProvider.GetService<IIpWhitelistRepository>();
+                        var whitelist = await whitelistRepository.FindAllAsync(opts.Project);
 
                         Console.WriteLine(JsonConvert.SerializeObject(whitelist));
                     }

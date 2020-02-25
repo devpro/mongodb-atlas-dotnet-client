@@ -38,11 +38,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             var resultList = await GetAsync<ResultListDto<EventDto>>(GenerateUrl($"/{projectId}/events"));
             return Mapper.Map<List<EventModel>>(resultList.Results);
         }
-
-        public async Task<List<WhiteListIpModel>> FindAllWhiteListIpAddressesByProjectIdAsync(string projectId)
-        {
-            var resultList = await GetAsync<ResultListDto<WhiteListIpDto>>(GenerateUrl($"/{projectId}/whitelist"));
-            return Mapper.Map<List<WhiteListIpModel>>(resultList.Results);
-        }
     }
 }

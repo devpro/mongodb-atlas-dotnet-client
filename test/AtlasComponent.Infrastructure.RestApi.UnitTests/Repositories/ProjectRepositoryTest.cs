@@ -79,32 +79,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
         #endregion
 
-        #region FindAllWhiteListIpAddressesByProjectId test methods
-
-        [Fact]
-        public async Task ProjectRepositoryFindAllWhiteListIpAddressesByProjectId_ReturnListFromApiCall()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var responseDto = fixture.Create<ResultListDto<WhiteListIpDto>>();
-            var httpResponseMessage = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
-            };
-            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/whitelist");
-
-            // Act
-            var output = await repository.FindAllWhiteListIpAddressesByProjectIdAsync("42");
-
-            // Assert
-            output.Should().NotBeNull();
-            output.Should().HaveCount(responseDto.Results.Count);
-            output.First().Should().BeEquivalentTo(Mapper.Map<WhiteListIpModel>(responseDto.Results.First()));
-        }
-
-        #endregion
-
         #region Private methods
 
         private IProjectRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
