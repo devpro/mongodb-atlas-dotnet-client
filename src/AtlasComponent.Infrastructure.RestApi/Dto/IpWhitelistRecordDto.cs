@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto
 {
@@ -10,5 +11,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto
         public string GroupId { get; set; }
         public string IpAddress { get; set; }
         public List<LinkDto> Links { get; set; }
+        public DateTime? DeleteAfterDate { get; set; }
     }
 }

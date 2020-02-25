@@ -40,12 +40,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
                 {
                     _logger.LogDebug("Add new ip whitelist");
 
-                    await _ipWhitelistRepository.CreateAsync(options.Project,
-                        new IpWhitelistRecordModel
-                        {
-                            CidrBlock = cidr,
-                            Comment = comment
-                        });
+                    _ = await _ipWhitelistRepository.CreateAsync(options.Project, cidr, comment);
                     nbCreated++;
                 }
             }
