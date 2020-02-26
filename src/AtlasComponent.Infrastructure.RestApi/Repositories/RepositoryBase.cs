@@ -80,7 +80,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             var stringResult = await response.Content.ReadAsStringAsync();
             if (string.IsNullOrEmpty(stringResult))
             {
-                throw new Exception($"Empty response received while calling {url}");
+                throw new ConnectivityException($"Empty response received while calling {url}");
             }
 
             if (!response.IsSuccessStatusCode)
@@ -97,7 +97,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             {
                 Logger.LogWarning($"Cannot deserialize POST call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T).ToString()}] [ExceptionMessage={exc.Message}]");
                 Logger.LogDebug($"[Stacktrace={exc.StackTrace}]");
-                throw new Exception($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
+                throw new ConnectivityException($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
             }
         }
 
