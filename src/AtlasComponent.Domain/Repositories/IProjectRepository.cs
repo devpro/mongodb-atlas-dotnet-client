@@ -8,6 +8,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories
     {
         Task<List<ProjectModel>> FindAllAsync();
         Task<List<EventModel>> FindAllEventsByProjectIdAsync(string projectId);
-        Task<List<WhiteListIpModel>> FindAllWhiteListIpAddressesByProjectIdAsync(string projectId);
     }
 }

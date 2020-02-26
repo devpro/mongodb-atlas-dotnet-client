@@ -15,17 +15,17 @@ Examples:
 # List your organizations
 mdbatlas list orgs
 
-# Get your first project id
+# get your first project id
 mdbatlas list projects --query id
 
-# Get last events
+# get last events
 mdbatlas list events -p <projectid>
 
-# Display IP while list
+# display IP while list
 mdbatlas list whitelist -p <projectid>
 ```
 
-## Quick start
+## User manual
 
 ### How to install
 
@@ -60,16 +60,39 @@ SET mdbatlas__PrivateKey=<privatekey>
 
 ### How to use
 
-You can make a quick check by listing the organizations you have access:
+#### Quick start
 
 ```bash
+# display tool version
+mdbatlas --version
+
+# display help
+mdbatlas --help
+
+# configure
+mdbatlas config --publickey mypublickey --privatekey mysecretprivatekey
+
+# list all the organizations your account have access to
 mdbatlas list orgs
 ```
 
-You can see all options by running the help command:
+#### Examples
 
 ```bash
-mdbatlas --help
+# get the first project id
+mdbatlas list projects --query id
+
+# list recents events for a given project
+mdbatlas list events --project myprojectid
+
+# list all IP whitelist record for a given project
+mdbatlas list whitelist --project myprojectid
+
+# add entries to IP whitelist for a given project (will only add the ones not already defined)
+mdbatlas edit whitelist --project myprojectid --values "W.X.Y.Z:My first IP comment,A.B.C.D:Second ip comment"
+
+# delete specific entries in the IP whitelist of a given project
+mdbatlas delete whitelist --project myprojectid --values --values "W.X.Y.Z,A.B.C.D"
 ```
 
 ### How to uninstall
@@ -133,7 +156,7 @@ Resource | Method
 Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId
 Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationProjects, Rename, Delete
 Project | FindAll:heavy_check_mark:, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
-Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create, Delete
+Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create:heavy_check_mark:, Delete
 Root |
 Database Users |
 Custom MongoDB Roles |
@@ -164,7 +187,7 @@ Performance Advisor |
 Auditing |
 Encryption at Rest |
 Atlas Users |
-Events |
+Events | FindAllByProjectId:heavy_check_mark:
 Access Tracking |
 Data Lakes |
 

@@ -27,8 +27,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.MappingProf
             CreateMap<Domain.Models.EventModel, Dto.EventDto>()
                 .ForMember(x => x.Links, opt => opt.Ignore());
 
-            CreateMap<Dto.WhiteListIpDto, Domain.Models.WhiteListIpModel>();
-            CreateMap<Domain.Models.WhiteListIpModel, Dto.WhiteListIpDto>()
+            CreateMap<Dto.IpWhitelistRecordDto, Domain.Models.IpWhitelistRecordModel>();
+            CreateMap<Domain.Models.IpWhitelistRecordModel, Dto.IpWhitelistRecordDto>()
+                .ForMember(x => x.AwsSecurityGroup, opt => opt.Ignore())
+                .ForMember(x => x.DeleteAfterDate, opt => opt.Ignore())
                 .ForMember(x => x.Links, opt => opt.Ignore());
         }
     }

@@ -16,11 +16,11 @@ using Xunit;
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Repositories
 {
     [Trait("Category", "UnitTests")]
-    public class OrganizationRepositoryTest : RepositoryTestBase
+    public class IpWhitelistRepositoryTest : RepositoryTestBase
     {
         #region Private fields & Constructor
 
-        public OrganizationRepositoryTest()
+        public IpWhitelistRepositoryTest()
             : base()
         {
         }
@@ -30,38 +30,38 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
         #region FindAll test methods
 
         [Fact]
-        public async Task OrganizationRepositoryFindAll_ReturnListFromApiCall()
+        public async Task IpWhitelistRepositoryRepositoryFindAll_ReturnListFromApiCall()
         {
             // Arrange
             var fixture = new Fixture();
-            var responseDto = fixture.Create<ResultListDto<OrganizationDto>>();
+            var responseDto = fixture.Create<ResultListDto<IpWhitelistRecordDto>>();
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(responseDto.ToJson())
             };
-            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/orgs");
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/whitelist");
 
             // Act
-            var output = await repository.FindAllAsync();
+            var output = await repository.FindAllAsync("42");
 
             // Assert
             output.Should().NotBeNull();
             output.Should().HaveCount(responseDto.Results.Count);
-            output.First().Should().BeEquivalentTo(Mapper.Map<OrganizationModel>(responseDto.Results.First()));
+            output.First().Should().BeEquivalentTo(Mapper.Map<IpWhitelistRecordModel>(responseDto.Results.First()));
         }
 
         #endregion
 
         #region Private methods
 
-        private IOrganizationRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
+        private IIpWhitelistRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
-            var logger = ServiceProvider.GetService<ILogger<OrganizationRepository>>();
+            var logger = ServiceProvider.GetService<ILogger<IpWhitelistRepository>>();
 
             var httpClientFactoryMock = BuildHttpClientFactory(httpResponseMessage, httpMethod, absoluteUri);
 
-            return new OrganizationRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
+            return new IpWhitelistRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
 
         #endregion

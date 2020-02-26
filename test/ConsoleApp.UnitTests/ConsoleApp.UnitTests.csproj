@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <AssemblyName>MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests</AssemblyName>
-    <RootNamespace>MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests</RootNamespace>
-    <ProjectGuid>{A7D0A7F8-D1FE-44E0-81D3-F500B731F937}</ProjectGuid>
+    <AssemblyName>MongoDb.Atlas.Client.ConsoleApp.UnitTests</AssemblyName>
+    <RootNamespace>MongoDb.Atlas.Client.ConsoleApp.UnitTests</RootNamespace>
+    <ProjectGuid>{F0BA7210-055B-4F7A-9762-2606186669C2}</ProjectGuid>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\AtlasComponent.Infrastructure.RestApi\AtlasComponent.Infrastructure.RestApi.csproj" />
+    <ProjectReference Include="..\..\src\ConsoleApp\ConsoleApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

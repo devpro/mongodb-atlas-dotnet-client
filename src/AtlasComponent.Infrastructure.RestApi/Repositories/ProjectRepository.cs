@@ -15,16 +15,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
     /// <see cref="https://docs.atlas.mongodb.com/reference/api/projects/"/>
     public class ProjectRepository : RepositoryBase, IProjectRepository
     {
-        #region Constructor
-
         public ProjectRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<ProjectRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }
-
-        #endregion
-
-        #region RepositoryBase Properties
 
         /// <remarks>
         /// Seen in MongoDB official documentation:
@@ -32,10 +26,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
         ///     For existing groups, your group/project ID remains the same. The resource and corresponding endpoints use the term groups."
         /// </remarks>
         protected override string ResourceName => "groups";
-
-        #endregion
-
-        #region IProjectRepository Methods
 
         public async Task<List<ProjectModel>> FindAllAsync()
         {
@@ -48,13 +38,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             var resultList = await GetAsync<ResultListDto<EventDto>>(GenerateUrl($"/{projectId}/events"));
             return Mapper.Map<List<EventModel>>(resultList.Results);
         }
-
-        public async Task<List<WhiteListIpModel>> FindAllWhiteListIpAddressesByProjectIdAsync(string projectId)
-        {
-            var resultList = await GetAsync<ResultListDto<WhiteListIpDto>>(GenerateUrl($"/{projectId}/whitelist"));
-            return Mapper.Map<List<WhiteListIpModel>>(resultList.Results);
-        }
-
-        #endregion
     }
 }

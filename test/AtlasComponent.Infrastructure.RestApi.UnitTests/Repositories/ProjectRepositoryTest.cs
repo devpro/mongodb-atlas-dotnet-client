@@ -10,8 +10,7 @@ using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Dto;
 using MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories;
-using Moq;
-using Newtonsoft.Json;
+using Withywoods.Serialization.Json;
 using Xunit;
 
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.Repositories
@@ -39,7 +38,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+                Content = new StringContent(responseDto.ToJson())
             };
             var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups");
 
@@ -65,7 +64,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             var httpResponseMessage = new HttpResponseMessage
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
+                Content = new StringContent(responseDto.ToJson())
             };
             var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/events");
 
@@ -76,32 +75,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.Should().NotBeNull();
             output.Should().HaveCount(responseDto.Results.Count);
             output.First().Should().BeEquivalentTo(Mapper.Map<EventModel>(responseDto.Results.First()));
-        }
-
-        #endregion
-
-        #region FindAllWhiteListIpAddressesByProjectId test methods
-
-        [Fact]
-        public async Task ProjectRepositoryFindAllWhiteListIpAddressesByProjectId_ReturnListFromApiCall()
-        {
-            // Arrange
-            var fixture = new Fixture();
-            var responseDto = fixture.Create<ResultListDto<WhiteListIpDto>>();
-            var httpResponseMessage = new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(JsonConvert.SerializeObject(responseDto))
-            };
-            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, "https://dummy.mongodb.com/api/atlas/v1.0/groups/42/whitelist");
-
-            // Act
-            var output = await repository.FindAllWhiteListIpAddressesByProjectIdAsync("42");
-
-            // Assert
-            output.Should().NotBeNull();
-            output.Should().HaveCount(responseDto.Results.Count);
-            output.First().Should().BeEquivalentTo(Mapper.Map<WhiteListIpModel>(responseDto.Results.First()));
         }
 
         #endregion
