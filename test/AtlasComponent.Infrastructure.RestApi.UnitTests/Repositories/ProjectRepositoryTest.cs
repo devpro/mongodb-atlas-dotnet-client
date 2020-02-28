@@ -27,6 +27,32 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
         #endregion
 
+        #region FindOneByNameAsync test methods
+
+        [Fact]
+        public async Task ProjectRepositoryFindOneByNameAsync_WithExistingName_ReturnRelatedProject()
+        {
+            // Arrange
+            var fixture = new Fixture();
+            var responseDto = fixture.Create<ProjectDto>();
+            var name = responseDto.Name;
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = HttpStatusCode.OK,
+                Content = new StringContent(responseDto.ToJson())
+            };
+            var repository = BuildRepository(httpResponseMessage, HttpMethod.Get, $"https://dummy.mongodb.com/api/atlas/v1.0/groups/byName/{name}");
+
+            // Act
+            var output = await repository.FindOneByNameAsync(name);
+
+            // Assert
+            output.Should().NotBeNull();
+            output.Should().BeEquivalentTo(Mapper.Map<ProjectModel>(responseDto));
+        }
+
+        #endregion
+
         #region FindAll test methods
 
         [Fact]

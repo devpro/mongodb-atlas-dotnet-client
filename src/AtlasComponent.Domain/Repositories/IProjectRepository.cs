@@ -6,6 +6,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories
 {
     public interface IProjectRepository
     {
+        Task<ProjectModel> FindOneByNameAsync(string name);
         Task<List<ProjectModel>> FindAllAsync();
         Task<List<EventModel>> FindAllEventsByProjectIdAsync(string projectId);
     }

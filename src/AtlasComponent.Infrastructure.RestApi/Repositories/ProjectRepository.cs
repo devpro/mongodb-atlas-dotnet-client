@@ -12,7 +12,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
     /// <summary>
     /// Project repository.
     /// </summary>
-    /// <see cref="https://docs.atlas.mongodb.com/reference/api/projects/"/>
+    /// <remarks>https://docs.atlas.mongodb.com/reference/api/projects/</remarks>
     public class ProjectRepository : RepositoryBase, IProjectRepository
     {
         public ProjectRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<ProjectRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
@@ -27,15 +27,24 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
         /// </remarks>
         protected override string ResourceName => "groups";
 
+        public async Task<ProjectModel> FindOneByNameAsync(string name)
+        {
+            var url = GenerateUrl($"/byName/{name}");
+            var result = await GetAsync<ProjectDto>(url);
+            return Mapper.Map<ProjectModel>(result);
+        }
+
         public async Task<List<ProjectModel>> FindAllAsync()
         {
-            var resultList = await GetAsync<ResultListDto<ProjectDto>>(GenerateUrl());
+            var url = GenerateUrl();
+            var resultList = await GetAsync<ResultListDto<ProjectDto>>(url);
             return Mapper.Map<List<ProjectModel>>(resultList.Results);
         }
 
         public async Task<List<EventModel>> FindAllEventsByProjectIdAsync(string projectId)
         {
-            var resultList = await GetAsync<ResultListDto<EventDto>>(GenerateUrl($"/{projectId}/events"));
+            var url = GenerateUrl($"/{projectId}/events");
+            var resultList = await GetAsync<ResultListDto<EventDto>>(url);
             return Mapper.Map<List<EventModel>>(resultList.Results);
         }
     }

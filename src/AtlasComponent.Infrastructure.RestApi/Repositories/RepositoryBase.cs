@@ -10,6 +10,9 @@ using Withywoods.Serialization.Json;
 
 namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositories
 {
+    /// <summary>
+    /// Abtract class for all repositories.
+    /// </summary>
     public abstract class RepositoryBase
     {
         protected RepositoryBase(IMongoDbAtlasRestApiConfiguration configuration, ILogger logger, IHttpClientFactory httpClientFactory, IMapper mapper)
