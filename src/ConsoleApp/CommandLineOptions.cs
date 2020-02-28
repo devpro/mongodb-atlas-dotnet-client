@@ -22,6 +22,9 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         [Option('p', "project", Required = false, HelpText = "Project id.")]
         public string Project { get; set; }
 
+        [Option('n', "name", Required = false, HelpText = "Name.")]
+        public string Name { get; set; }
+
         [Option('q', "query", Required = false, HelpText = "Information to send back.")]
         public string Query { get; set; }
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Models;
 using MongoDb.Atlas.Client.AtlasComponent.Domain.Repositories;
+using Withywoods.Serialization.Json;
 using Withywoods.System;
 
 namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
@@ -22,8 +23,25 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
         {
             _logger.LogDebug("Query the projects collection");
 
-            var projects = await _projectRepository.FindAllAsync();
-            if (!projects.Any())
+            if (string.IsNullOrEmpty(options.Name))
+            {
+                var projects = await _projectRepository.FindAllAsync();
+                if (!projects.Any())
+                {
+                    return null;
+                }
+
+                if (!string.IsNullOrEmpty(options.Query))
+                {
+                    var property = typeof(ProjectModel).GetProperty(options.Query.FirstCharToUpper());
+                    return property.GetValue(projects.First()).ToString();
+                }
+
+                return $"Items found: {projects.Count}. First project found: {projects.FirstOrDefault().Name}";
+            }
+
+            var project = await _projectRepository.FindOneByNameAsync(options.Name);
+            if (project == null)
             {
                 return null;
             }
@@ -31,10 +49,10 @@ namespace MongoDb.Atlas.Client.ConsoleApp.Tasks
             if (!string.IsNullOrEmpty(options.Query))
             {
                 var property = typeof(ProjectModel).GetProperty(options.Query.FirstCharToUpper());
-                return property.GetValue(projects.First()).ToString();
+                return property.GetValue(project).ToString();
             }
 
-            return $"Items found: {projects.Count}. First project found: {projects.FirstOrDefault().Name}";
+            return project.ToJson();
         }
     }
 }

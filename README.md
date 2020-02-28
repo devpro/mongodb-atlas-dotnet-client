@@ -155,7 +155,7 @@ Resource | Method
 -------- | ------
 Event | FindAllByOrganizationId, FindOneByIdAndProjectId, FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId
 Organization | FindAll:heavy_check_mark:, FindOneById, FindAllOrganizationUsers, FindAllOrganizationProjects, Rename, Delete
-Project | FindAll:heavy_check_mark:, FindOneById, FindOneByName, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
+Project | FindAll:heavy_check_mark:, FindOneById, FindOneByName:heavy_check_mark:, Create, Delete, GetProjectTeams, AssignTeamToProject, DeleteUserFromProject
 Project IP Whitelist | FindAllByProjectId:heavy_check_mark:, FindOneByIdAndProjectId, Create:heavy_check_mark:, Delete
 Root |
 Database Users |
