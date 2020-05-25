@@ -65,7 +65,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             }
             catch (Exception exc)
             {
-                Logger.LogWarning($"Cannot deserialize GET call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T).ToString()}] [ExceptionMessage={exc.Message}]");
+                Logger.LogWarning($"Cannot deserialize GET call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T)}] [ExceptionMessage={exc.Message}]");
                 Logger.LogDebug($"[Stacktrace={exc.StackTrace}]");
                 throw new ConnectivityException($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
             }
@@ -98,7 +98,7 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
             }
             catch (Exception exc)
             {
-                Logger.LogWarning($"Cannot deserialize POST call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T).ToString()}] [ExceptionMessage={exc.Message}]");
+                Logger.LogWarning($"Cannot deserialize POST call response content [HttpRequestUrl={url}] [HttpResponseContent={stringResult}] [SerializationType={typeof(T)}] [ExceptionMessage={exc.Message}]");
                 Logger.LogDebug($"[Stacktrace={exc.StackTrace}]");
                 throw new ConnectivityException($"Invalid data received when calling \"{url}\". {exc.Message}.", exc);
             }
