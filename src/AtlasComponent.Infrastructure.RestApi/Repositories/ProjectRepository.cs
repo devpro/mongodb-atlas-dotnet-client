@@ -15,7 +15,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
     /// <remarks>https://docs.atlas.mongodb.com/reference/api/projects/</remarks>
     public class ProjectRepository : RepositoryBase, IProjectRepository
     {
-        public ProjectRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<ProjectRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public ProjectRepository(
+            IMongoDbAtlasRestApiConfiguration configuration,
+            ILogger<ProjectRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

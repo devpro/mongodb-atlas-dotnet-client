@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -37,7 +38,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.DependencyI
             AppContext.SetSwitch("System.Net.Http.UseSocketsHttpHandler", false);
 
             services
-                .AddHttpClient(configuration.HttpClientName)
+                .AddHttpClient(configuration.HttpClientName, client =>
+                {
+                    client.DefaultRequestHeaders.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                })
                 .ConfigurePrimaryHttpMessageHandler(
                     x => new HttpClientHandler
                     {
