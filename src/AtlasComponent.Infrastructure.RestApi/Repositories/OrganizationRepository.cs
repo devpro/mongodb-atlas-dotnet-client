@@ -11,7 +11,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
 {
     public class OrganizationRepository : RepositoryBase, IOrganizationRepository
     {
-        public OrganizationRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<OrganizationRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public OrganizationRepository(
+            IMongoDbAtlasRestApiConfiguration configuration,
+            ILogger<OrganizationRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

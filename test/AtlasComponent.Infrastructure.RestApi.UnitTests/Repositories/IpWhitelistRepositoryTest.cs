@@ -18,16 +18,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
     [Trait("Category", "UnitTests")]
     public class IpWhitelistRepositoryTest : RepositoryTestBase
     {
-        #region Private fields & Constructor
-
         public IpWhitelistRepositoryTest()
             : base()
         {
         }
-
-        #endregion
-
-        #region FindAll test methods
 
         [Fact]
         public async Task IpWhitelistRepositoryRepositoryFindAll_ReturnListFromApiCall()
@@ -51,10 +45,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.First().Should().BeEquivalentTo(Mapper.Map<IpWhitelistRecordModel>(responseDto.Results.First()));
         }
 
-        #endregion
-
-        #region Private methods
-
         private IIpWhitelistRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
             var logger = ServiceProvider.GetService<ILogger<IpWhitelistRepository>>();
@@ -63,7 +53,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
             return new IpWhitelistRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
-
-        #endregion
     }
 }

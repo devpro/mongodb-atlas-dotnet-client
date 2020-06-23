@@ -16,13 +16,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
 {
     static class Program
     {
-        #region Constants
-
-        private const string _AppsettingsFilename = "appsettings.json";
-
-        #endregion
-
-        #region Entry point
+        private const string AppsettingsFilename = "appsettings.json";
 
         private async static Task Main(string[] args)
         {
@@ -32,10 +26,6 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                     errs => Task.FromResult(HandleParseError())
                  );
         }
-
-        #endregion
-
-        #region Private helpers
 
         private async static Task<int> RunOptionsAndReturnExitCode(CommandLineOptions opts)
         {
@@ -98,7 +88,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         {
             return new ConfigurationBuilder()
                 .SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()?.Location))
-                .AddJsonFile(_AppsettingsFilename, true, true)
+                .AddJsonFile(AppsettingsFilename, true, true)
                 .AddEnvironmentVariables()
                 .Build();
         }
@@ -106,7 +96,7 @@ namespace MongoDb.Atlas.Client.ConsoleApp
         private static void SaveSettings(CommandLineOptions opts)
         {
             var jsonString = $"{{\"mdbatlas\":{{\"PublicKey\": \"{opts.PublicKey}\", \"PrivateKey\": \"{opts.PrivateKey}\"}}}}";
-            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, _AppsettingsFilename), jsonString, Encoding.UTF8);
+            File.WriteAllText(Path.Combine(AppContext.BaseDirectory, AppsettingsFilename), jsonString, Encoding.UTF8);
         }
 
         private static ServiceProvider CreateServiceProvider(CommandLineOptions opts, IConfigurationRoot configuration)
@@ -148,7 +138,5 @@ namespace MongoDb.Atlas.Client.ConsoleApp
                 Console.WriteLine(message);
             }
         }
-
-        #endregion
     }
 }

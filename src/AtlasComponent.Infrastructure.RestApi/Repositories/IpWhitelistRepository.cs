@@ -17,7 +17,11 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.Repositorie
     /// <remarks>https://docs.atlas.mongodb.com/reference/api/whitelist/</remarks>
     public class IpWhitelistRepository : RepositoryBase, IIpWhitelistRepository
     {
-        public IpWhitelistRepository(IMongoDbAtlasRestApiConfiguration configuration, ILogger<IpWhitelistRepository> logger, IHttpClientFactory httpClientFactory, IMapper mapper)
+        public IpWhitelistRepository(
+            IMongoDbAtlasRestApiConfiguration configuration,
+            ILogger<IpWhitelistRepository> logger,
+            IHttpClientFactory httpClientFactory,
+            IMapper mapper)
             : base(configuration, logger, httpClientFactory, mapper)
         {
         }

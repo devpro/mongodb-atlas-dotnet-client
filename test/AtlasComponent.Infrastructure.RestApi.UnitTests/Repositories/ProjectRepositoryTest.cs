@@ -18,16 +18,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
     [Trait("Category", "UnitTests")]
     public class ProjectRepositoryTest : RepositoryTestBase
     {
-        #region Private fields & Constructor
-
         public ProjectRepositoryTest()
             : base()
         {
         }
-
-        #endregion
-
-        #region FindOneByNameAsync test methods
 
         [Fact]
         public async Task ProjectRepositoryFindOneByNameAsync_WithExistingName_ReturnRelatedProject()
@@ -51,10 +45,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.Should().BeEquivalentTo(Mapper.Map<ProjectModel>(responseDto));
         }
 
-        #endregion
-
-        #region FindAll test methods
-
         [Fact]
         public async Task ProjectRepositoryFindAll_ReturnListFromApiCall()
         {
@@ -76,10 +66,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.Should().HaveCount(responseDto.Results.Count);
             output.First().Should().BeEquivalentTo(Mapper.Map<ProjectModel>(responseDto.Results.First()));
         }
-
-        #endregion
-
-        #region FindAllEventsByProjectId test methods
 
         [Fact]
         public async Task ProjectRepositoryFindAllEventsByProjectId_ReturnListFromApiCall()
@@ -103,10 +89,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.First().Should().BeEquivalentTo(Mapper.Map<EventModel>(responseDto.Results.First()));
         }
 
-        #endregion
-
-        #region Private methods
-
         private IProjectRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
             var logger = ServiceProvider.GetService<ILogger<ProjectRepository>>();
@@ -115,7 +97,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
             return new ProjectRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
-
-        #endregion
     }
 }

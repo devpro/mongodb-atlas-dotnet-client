@@ -18,16 +18,10 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
     [Trait("Category", "UnitTests")]
     public class OrganizationRepositoryTest : RepositoryTestBase
     {
-        #region Private fields & Constructor
-
         public OrganizationRepositoryTest()
             : base()
         {
         }
-
-        #endregion
-
-        #region FindAll test methods
 
         [Fact]
         public async Task OrganizationRepositoryFindAll_ReturnListFromApiCall()
@@ -51,10 +45,6 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
             output.First().Should().BeEquivalentTo(Mapper.Map<OrganizationModel>(responseDto.Results.First()));
         }
 
-        #endregion
-
-        #region Private methods
-
         private IOrganizationRepository BuildRepository(HttpResponseMessage httpResponseMessage, HttpMethod httpMethod, string absoluteUri)
         {
             var logger = ServiceProvider.GetService<ILogger<OrganizationRepository>>();
@@ -63,7 +53,5 @@ namespace MongoDb.Atlas.Client.AtlasComponent.Infrastructure.RestApi.UnitTests.R
 
             return new OrganizationRepository(Configuration, logger, httpClientFactoryMock.Object, Mapper);
         }
-
-        #endregion
     }
 }
